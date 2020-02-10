@@ -10,4 +10,10 @@ axios.loadData = async function (url) {
   return resp.data;
 }
 
+// axios.get('/user/list').then((res)=>{
+//   console.log(res)
+// }).catch(err=>{
+//
+// })
+
 Vue.prototype.$http = axios;// 将axios添加到 Vue的原型，这样一切vue实例都可以使用该对象

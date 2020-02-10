@@ -13,9 +13,10 @@ function route(path, file, name, children) {
   }
 }
 
-export default new Router({
+const router =  new Router({
   routes: [
     route("/login", '/Login', "Login"),
+    route("/register", '/Register', "Register"),
     {
       path: '/',
       component: () => import('../pages/Home'),
@@ -34,3 +35,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path=='/login'||to.path=='/register'){
+    next()
+  }else{
+    if (sessionStorage.getItem('user')){
+      next()
+    }else {
+      next({
+        path:'login'
+      })
+    }
+  }
+})
+export default router
