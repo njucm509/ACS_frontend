@@ -29,8 +29,8 @@
             logining:false,
             loginForm:{
               //这是默认值
-              account:'root',
-              pwd:'rootadmin'
+              account:'root1',
+              pwd:'123'
             },
             rules2:{
               account: [{
@@ -54,17 +54,20 @@
           handleSubmit(ev){
             this.$refs.loginForm.validate((valid)=>{
               if (valid){
-                console.log(this.$router.options);
+                // console.log(this.$router.options);
                 let loginParams = {
-                  account:this.loginForm.account,
-                  pwd:this.loginForm.pwd
+                  userName:this.loginForm.account,
+                  userPassword:this.loginForm.pwd
                 }
+                console.log(this.loginForm.account);
+                console.log(this.loginForm.pwd);
                 requestLogin(loginParams).then(res=>{
+                  console.log(res)
                   this.logining = true;
                   let data = res.data
                   let code = res.status
                   let msg = res.msg
-                  let user = data.user
+                  let user = data
                   if(code != 200){
                     this.$message({
                       message:msg,
@@ -73,6 +76,7 @@
                     this.logining = false
                   }else {
                     sessionStorage.setItem('user',JSON.stringify(user));
+                    console.log(JSON.parse(sessionStorage.getItem('user')))
                     this.$message({
                       message:msg,
                       type:'success'
