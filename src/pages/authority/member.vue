@@ -1,81 +1,82 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="AllUser"
-    sort-by="userId"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>用户</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+  <div>
+    <v-toolbar flat color="white">
+      <v-toolbar-title>用户</v-toolbar-title>
+      <v-divider
+        class="mx-2"
+        inset
+        vertical
+      ></v-divider>
+      <v-spacer></v-spacer>
+      <v-dialog v-model="dialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn color="primary" dark class="mb-2" v-on="on">创建</v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">{{ formTitle }}</span>
+          </v-card-title>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userId" label="userId"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userName" label="userName"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userPassword" label="userPassword"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userDepartment" label="userDepartment"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userCompany" label="userCompany"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.userStatus" label="userStatus"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userId" label="编号" disabled></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userName" label="用户名"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userPassword" label="密码"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userDepartment" label="部门"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userCompany" label="公司"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.userStatus" label="状态"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">取消</v-btn>
-              <v-btn color="blue darken-1" text @click="save">保存</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        edit
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">刷新</v-btn>
-    </template>
-  </v-data-table>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="close">取消</v-btn>
+            <v-btn color="blue darken-1" flat @click="save">保存</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-toolbar>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      class="elevation-1"
+    >
+      <template v-slot:items="props">
+        <td>{{ props.item.userId }}</td>
+        <td class="text-xs-left">{{ props.item.userName }}</td>
+        <td class="text-xs-left">{{ props.item.userPassword }}</td>
+        <td class="text-xs-left">{{ props.item.userIP }}</td>
+        <td class="text-xs-left">{{ props.item.userDepartment }}</td>
+        <td class="text-xs-left">{{ props.item.userCompany }}</td>
+        <td class="text-xs-left">{{ props.item.userStatus }}</td>
+        <td class="justify-left layout px-0">
+          <v-btn icon class="mr-2" @click="editItem(props.item)">
+            <i class="el-icon-edit"/>
+          </v-btn>
+          <v-btn icon @click="deleteItem(props.item)">
+            <i class="el-icon-delete"/>
+          </v-btn>
+        </td>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">刷新</v-btn>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 <script>
   import {getUserList} from "../../axios/api";
@@ -84,57 +85,46 @@
     data: () => ({
       dialog: false,
       headers: [
-        {text: '编号',value: 'userId',},
-        { text: '姓名', value: 'userName' },
-        { text: '密码', value: 'userPassword' },
-        { text: 'IP地址', value: 'userIP' },
-        { text: '部门', value: 'userDepartment' },
-        { text: '公司', value: 'userCompany' },
-        { text: '状态', value: 'userStatus' },
-        { text: '操作', value: 'action', sortable: false },
+        {text: '编号',value: 'userId'},
+        { text: '姓名', value: 'userName',sortable: false },
+        { text: '密码', value: 'userPassword',sortable: false },
+        { text: 'IP地址', value: 'userIP',sortable: false },
+        { text: '部门', value: 'userDepartment',sortable: false},
+        { text: '公司', value: 'userCompany', sortable: false },
+        { text: '状态', value: 'userCompany', sortable: false },
+        { text: '操作', value: 'userCompany', sortable: false }
       ],
-      AllUser: [
-        {
-          userId:'a',
-          userName:'a',
-          userPassword:'a',
-          userIP:'a',
-          userDepartment:'a',
-          userCompany:'a',
-          userStatus:'a'
-        }
-
-      ],//这个变量用来表示全部数据
+      items: [],
       editedIndex: -1,
       editedItem: {
-        userId: '',
-        userName: 0,
-        userPassword: 0,
-        userIP: '',
-        userDepartment: '',
+        userId:'',
+        userName: '',
+        userPassword:'',
+        userIP:'',
+        userDepartment:'',
         userCompany:'',
-        userStatus:''
+        userStatus:'',
       },
       defaultItem: {
-        userId: '',
-        userName: 0,
-        userPassword: 0,
-        userIP: '',
-        userDepartment: '',
+        userName: '',
+        userPassword:'',
+        userIP:'',
+        userDepartment:'',
         userCompany:'',
-        userStatus:''
-      },
+        userStatus:'',
+      }
     }),
+
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? '新建' : '编辑'
-      },
+      }
     },
 
     watch: {
       dialog (val) {
         val || this.close()
-      },
+      }
     },
 
     created () {
@@ -144,22 +134,22 @@
     methods: {
       initialize () {
         getUserList().then(res=>{
-          this.AllUser = JSON.stringify(res.data)
-          // console.log(res.data);
-          // console.log(this.AllUser);
-          console.log(typeof this.AllUser);
+          console.log("打印查询到的所有用户"+res.data);
+          this.items = res.data
         })
       },
 
       editItem (item) {
-        this.editedIndex = this.AllUser.indexOf(item)
+        this.editedIndex = this.items.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        console.log(this.editedItem);
+        console.log(item);
         this.dialog = true
       },
 
       deleteItem (item) {
-        const index = this.AllUser.indexOf(item)
-        confirm('确认删除此条！') && this.AllUser.splice(index, 1)
+        const index = this.items.indexOf(item)
+        confirm('确认要删除！') && this.items.splice(index, 1)
       },
 
       close () {
@@ -174,10 +164,10 @@
         if (this.editedIndex > -1) {
           Object.assign(this.desserts[this.editedIndex], this.editedItem)
         } else {
-          this.AllUser.push(this.editedItem)
+          this.items.push(this.editedItem)
         }
         this.close()
-      },
-    },
+      }
+    }
   }
 </script>

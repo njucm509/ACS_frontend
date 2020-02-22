@@ -3,7 +3,7 @@
            class="register-container">
     <h3 class="title">系统注册</h3>
     <el-form-item prop="account">
-      <el-input type="text" v-model="registerForm.account" auto-complete="off" placeholder="账号"></el-input>
+      <el-input type="text" v-model="registerForm.account" auto-complete="off" placeholder="用户名"></el-input>
     </el-form-item>
     <el-form-item prop="pwd">
       <el-input type="password" v-model="registerForm.pwd" auto-complete="off" placeholder="密码"></el-input>
