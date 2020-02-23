@@ -2,14 +2,17 @@
   <el-form :model="registerForm" :rules="rules2" ref="registerForm" label-position="left" label-width="0px"
            class="register-container">
     <h3 class="title">系统注册</h3>
-    <el-form-item prop="account">
-      <el-input type="text" v-model="registerForm.account" auto-complete="off" placeholder="用户名"></el-input>
-    </el-form-item>
-    <el-form-item prop="pwd">
-      <el-input type="password" v-model="registerForm.pwd" auto-complete="off" placeholder="密码"></el-input>
-    </el-form-item>
     <el-form-item prop="name">
-      <el-input type="text" v-model="registerForm.name" auto-complete="off" placeholder="真实姓名"></el-input>
+      <el-input type="text" v-model="registerForm.userName" auto-complete="off" placeholder="真实姓名"></el-input>
+    </el-form-item>
+    <el-form-item prop="password">
+      <el-input type="password" v-model="registerForm.userPassword" auto-complete="off" placeholder="密码"></el-input>
+    </el-form-item>
+    <el-form-item prop="userDepartment">
+      <el-input type="text" v-model="registerForm.userDepartment" auto-complete="off" placeholder="部门"></el-input>
+    </el-form-item>
+    <el-form-item prop="userCompany">
+      <el-input type="text" v-model="registerForm.userCompany" auto-complete="off" placeholder="单位"></el-input>
     </el-form-item>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit">注册
@@ -28,20 +31,34 @@
     data() {
       return {
         registerForm: {
-          account: '',
-          pwd: '',
-          name: ''
+          userName: '',
+          userPassword: '',
+          userIP:'',
+          userDepartment:'',
+          userCompany:''
         },
         rules2: {
-          account: [{
+          userName: [{
             required: true,
-            message: '请输入账号',
+            message: '请输入真实姓名',
             trigger: 'blur'
           }
           ],
-          pwd: [{
+          userPassword: [{
             required: true,
             message: '请输入密码',
+            trigger: 'blur'
+          }
+          ],
+          userDepartment: [{
+            required: true,
+            message: '请输入所属部门',
+            trigger: 'blur'
+          }
+          ],
+          userCompany: [{
+            required: true,
+            message: '请输入工作单位',
             trigger: 'blur'
           }
           ]
@@ -52,7 +69,7 @@
       handleSubmit() {
         this.$refs.registerForm.validate((valid) => {
           if (valid) {
-            this.$http.post('/user/create', this.registerForm).then((res => {
+            this.$http.post('/user/add', this.registerForm).then((res => {
               console.log(res.data)
               let user = res.data;
               sessionStorage.setItem('user', JSON.stringify(user));
@@ -66,7 +83,13 @@
             }))
           }
         })
-      }
+      },
+    },
+    created() {
+      let cip = returnCitySN["cip"]
+      this.registerForm.userIP = cip
+      console.log(this.registerForm)
+      console.log(cip);
     }
   }
 </script>

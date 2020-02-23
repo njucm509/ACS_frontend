@@ -48,9 +48,6 @@
           }
       },
       methods:{
-          handleReset(){
-            this.$refs.loginForm.resetFields();
-          },
           handleSubmit(ev){
             this.$refs.loginForm.validate((valid)=>{
               if (valid){
@@ -59,26 +56,38 @@
                   userName:this.loginForm.account,
                   userPassword:this.loginForm.pwd
                 }
-                console.log(this.loginForm.account);
-                console.log(this.loginForm.pwd);
                 requestLogin(loginParams).then(res=>{
-                  console.log(res)
+                  console.log(res);
                   this.logining = true;
                   let data = res.data
+                  console.log("data:"+data);
                   let code = res.status
+                  console.log("code:"+code);
                   let msg = res.msg
+                  console.log("msg:"+msg);
                   let user = data
-                  if(code != 200){
+                  console.log("userStatus:"+user.userStatus);
+                  if(code==401){
                     this.$message({
-                      message:msg,
+                      message: '未授权用户',
                       type:'error'
                     });
+                    this.logining = false
+                  }
+                  if(code ==404){
+                    this.$message({
+                      message: '未注册用户',
+                      type:'error'
+                    });
+/*                    this.$router.push({
+                      path:'/register'
+                    })*/
                     this.logining = false
                   }else {
                     sessionStorage.setItem('user',JSON.stringify(user));
                     console.log(JSON.parse(sessionStorage.getItem('user')))
                     this.$message({
-                      message:msg,
+                      message:'登录成功',
                       type:'success'
                     })
                     this.$router.push({
