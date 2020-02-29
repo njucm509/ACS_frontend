@@ -24,7 +24,11 @@ export const deleteUser = params=>{
 export const addUser = params=>{
   return axios.post("/user/add",params)
 }
-
+//得到本机IP
 export const getIP = ()=>{
   return returnCitySN["cip"]
+}
+//得到属性信息
+export const  getAttibuteList = ()=>{
+  return axios.get("/attribute/list")
 }

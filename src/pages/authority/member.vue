@@ -96,8 +96,8 @@
         { text: 'IP地址', value: 'userIP',sortable: false },
         { text: '部门', value: 'userDepartment',sortable: false},
         { text: '公司', value: 'userCompany', sortable: false },
-        { text: '状态', value: 'userCompany', sortable: false },
-        { text: '操作', value: 'userCompany', sortable: false }
+        { text: '状态', value: 'userStatus', sortable: false },
+        { text: '操作', value: '', sortable: false }
       ],
       items: [],
       editedIndex: -1,

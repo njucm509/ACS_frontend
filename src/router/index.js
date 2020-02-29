@@ -30,7 +30,8 @@ const router =  new Router({
         route("/test2/test2-2", '/test2/test2-2', "test2-2"),
         route("/authority/list", '/authority/list', "List"),
         route("/authority/member", '/authority/member', "member"),
-        route("/authority/role", '/authority/role', "role")
+        route("/authority/role", '/authority/role', "role"),
+        route("/authority/attribute", '/authority/attribute', "attribute")
       ]
     }
   ]

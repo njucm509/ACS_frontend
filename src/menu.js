@@ -33,7 +33,8 @@ var menus = [
     items: [
       { title: "权限管理", path: "/list" },
       { title: "角色管理", path: "/role" },
-      { title: "人员管理", path: "/member" }
+      { title: "人员管理", path: "/member" },
+      { title: "列权限管理", path: "/attribute" }
     ]
   }
 ]
