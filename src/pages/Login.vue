@@ -30,7 +30,7 @@
             loginForm:{
               //这是默认值
               account:'root1',
-              pwd:'123'
+              pwd:'admin'
             },
             rules2:{
               account: [{

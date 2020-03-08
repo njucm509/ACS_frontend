@@ -31,10 +31,10 @@ var menus = [
     title: "权限管理",
     path:"/authority",
     items: [
-      { title: "权限管理", path: "/list" },
+      { title: "角色权限管理", path: "/authority" },
       { title: "角色管理", path: "/role" },
       { title: "人员管理", path: "/member" },
-      { title: "列权限管理", path: "/attribute" }
+      { title: "属性权限管理", path: "/attribute" }
     ]
   }
 ]

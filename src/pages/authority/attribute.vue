@@ -21,10 +21,10 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                  <v-text-field v-model="editedItem.attributeId" label="属性编号"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                  <v-text-field v-model="editedItem.attributeName" label="内容"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -38,14 +38,10 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="items" class="elevation-1">
       <template v-slot:items="props">
-        <td class="text-xs-right">{{ props.item.attributeId }}</td>
-        <td class="text-xs-right">{{ props.item.attributeName }}</td>
+        <td>{{ props.item.attributeId }}</td>
+        <td>{{props.item.attributeName}}</td>
         <td class="justify-left layout px-0">
           <v-btn icon class="mr-2" @click="editItem(props.item)">
             <i class="el-icon-edit"/>
@@ -62,7 +58,7 @@
   </div>
 </template>
 <script>
-  import {getAttibuteList} from "../../axios/api";
+  import {getAttributeList} from "../../axios/api";
 
   export default {
     data: () => ({
@@ -75,11 +71,11 @@
       items: [],
       editedIndex: -1,
       editedItem: {
-        attributeId: '',
-        attributeName: '',
+        attributeId: '123',
+        attributeName: '无权限',
       },
       defaultItem: {
-        attributeName: '',
+        attributeId: '',
         attributeName: '',
       }
     }),
@@ -87,7 +83,7 @@
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? '新建' : '编辑'
-      }
+      },
     },
 
     watch: {
@@ -102,7 +98,8 @@
 
     methods: {
       initialize () {
-        getAttibuteList().then(res=>{
+        getAttributeList().then(res=>{
+          console.log(res);
           this.items = res.data
         })
       },

@@ -183,6 +183,8 @@
           addUser(this.editedItem).then(res=>{
             if (res.status==200){
               this.items.push(res.data)
+            }else{
+              confirm("插入失败!")//提示插入失败
             }
             console.log(res);
           })

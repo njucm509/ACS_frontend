@@ -28,10 +28,11 @@ const router =  new Router({
         route("/test1/test1-3", '/test1/test1-3', "test1-3"),
         route("/test2/test2-1", '/test2/test2-1', "test2-1"),
         route("/test2/test2-2", '/test2/test2-2', "test2-2"),
-        route("/authority/list", '/authority/list', "List"),
+        route("/authority/authority", '/authority/authority', "authority"),
         route("/authority/member", '/authority/member', "member"),
         route("/authority/role", '/authority/role', "role"),
-        route("/authority/attribute", '/authority/attribute', "attribute")
+        route("/authority/attribute", '/authority/attribute', "attribute"),
+        // route("authority/authority",'authority/authority',"authority")
       ]
     }
   ]
