@@ -10,11 +10,9 @@ var menus = [
   {
     action: "apps",
     title: "管理1",
-    path:"/test1",
+    path:"/component",
     items: [
-      { title: "管理1-1", path: "/test1-1" },
-      { title: "管理1-2", path: "/test1-2" },
-      { title: "管理1-3", path: "/test1-3" },
+      { title: "上传", path: "/upload" },
     ]
   },
   {

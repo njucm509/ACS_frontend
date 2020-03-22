@@ -19,14 +19,14 @@
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.attributeId" label="属性编号"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.attributeName" label="内容"></v-text-field>
-                </v-flex>
-              </v-layout>
+              <el-select v-model="selectAttribute" multiple placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </v-container>
           </v-card-text>
 
@@ -40,8 +40,15 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="items" class="elevation-1">
       <template v-slot:items="props">
-        <td>{{ props.item.attributeId }}</td>
-        <td>{{props.item.attributeName}}</td>
+        <td>{{ props.item.id }}</td>
+        <td>
+          <div>
+            <el-tag v-for="item in props.item.names"
+                    :key="item" style="margin: 2px">
+              {{item | filterName}}
+            </el-tag>
+          </div>
+        </td>
         <td class="justify-left layout px-0">
           <v-btn icon class="mr-2" @click="editItem(props.item)">
             <i class="el-icon-edit"/>
@@ -58,16 +65,64 @@
   </div>
 </template>
 <script>
-  import {getAttributeList} from "../../axios/api";
+  import {addAttribute, deleteAttribute, getAttributeList} from "../../axios/api";
+  import map from "../../storage/map";
 
   export default {
     data: () => ({
       dialog: false,
       headers: [
-        { text: '编号', value: 'attributeId' },
-        { text: '属性集', value: 'attributeName', sortable: false },
-        { text: '操作', value: '', sortable: false }
+        {text: '编号', value: 'attributeId'},
+        {text: '属性集', value: 'attributeName', sortable: false},
+        {text: '操作', value: '', sortable: false}
       ],
+      selectAttribute:[],
+      options: [{
+        value: 'name',
+        label: '姓名'
+      }, {
+        value: 'sex',
+        label: '性别'
+      }, {
+        value: 'birthday',
+        label: '出生日期'
+      }, {
+        value: 'hospital',
+        label: '就诊医院'
+      }, {
+        value: 'department',
+        label: '部门'
+      }, {
+        value: 'attending_doctor',
+        label: '主治医生'
+      }, {
+        value: 'medical_insurance',
+        label: '医保'
+      }, {
+        value: 'date_of_consultation',
+        label: '就诊状况'
+      }, {
+        value: 'visiting_status',
+        label: '就诊状况'
+      }, {
+        value: 'complaints',
+        label: '病诉'
+      }, {
+        value: 'seriousness',
+        label: '轻重程度'
+      }, {
+        value: 'medical_history',
+        label: '病史'
+      }, {
+        value: 'speciality_check_up',
+        label: '专科检查'
+      }, {
+        value: 'drug_use',
+        label: '用药'
+      }, {
+        value: 'release_time',
+        label: '发布时间'
+      }],
       items: [],
       editedIndex: -1,
       editedItem: {
@@ -81,41 +136,51 @@
     }),
 
     computed: {
-      formTitle () {
+      formTitle() {
         return this.editedIndex === -1 ? '新建' : '编辑'
       },
     },
 
     watch: {
-      dialog (val) {
+      dialog(val) {
         val || this.close()
       }
     },
+    filters: {
+      filterName(value) {
+        if (map[value] == null) {
+          return value;
+        }
+        return map[value];
+      }
+    },
 
-    created () {
+    created() {
       this.initialize()
     },
 
     methods: {
-      initialize () {
-        getAttributeList().then(res=>{
+      initialize() {
+        getAttributeList().then(res => {
           console.log(res);
           this.items = res.data
         })
       },
 
-      editItem (item) {
+      editItem(item) {
         this.editedIndex = this.items.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
-      deleteItem (item) {
+      deleteItem(item) {
         const index = this.items.indexOf(item)
-        confirm('确定删除！') && this.items.splice(index, 1)
+        confirm('确定删除！') && this.items.splice(index, 1)&&deleteAttribute(item).then(res=>{
+          console.log(res.data)
+        })
       },
 
-      close () {
+      close() {
         this.dialog = false
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
@@ -123,11 +188,13 @@
         }, 300)
       },
 
-      save () {
+      save() {
         if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem)
+          Object.assign(this.items[this.editedIndex].names, this.editedItem)
         } else {
-          this.items.push(this.editedItem)
+          addAttribute(this.selectAttribute).then(res=>{
+            
+          })
         }
         this.close()
       }

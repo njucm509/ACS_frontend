@@ -23,9 +23,7 @@ const router =  new Router({
       redirect: '/index/dashboard',
       children: [
         route("/index/dashboard", "/Dashboard", "Dashboard"),
-        route("/test1/test1-1", '/test1/test1-1', "test1-1"),
-        route("/test1/test1-2", '/test1/test1-2', "test1-2"),
-        route("/test1/test1-3", '/test1/test1-3', "test1-3"),
+        route("/component/upload", '/component/upload', "upload"),
         route("/test2/test2-1", '/test2/test2-1', "test2-1"),
         route("/test2/test2-2", '/test2/test2-2', "test2-2"),
         route("/authority/authority", '/authority/authority', "authority"),

@@ -79,9 +79,6 @@
                       message: '未注册用户',
                       type:'error'
                     });
-/*                    this.$router.push({
-                      path:'/register'
-                    })*/
                     this.logining = false
                   }else {
                     sessionStorage.setItem('user',JSON.stringify(user));

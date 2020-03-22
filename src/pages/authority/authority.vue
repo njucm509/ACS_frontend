@@ -44,7 +44,9 @@
     <v-data-table :headers="headers" :items="items" class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.id }}</td>
-        <td>{{props.item.content}}</td>
+        <td>
+          {{props.item.content}}
+        </td>
         <td class="justify-left layout px-0">
           <v-btn icon class="mr-2" @click="editItem(props.item)">
             <i class="el-icon-edit"/>
